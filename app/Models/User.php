@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +12,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Mass assignable attributes.
      *
      * @var list<string>
      */
@@ -21,10 +20,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',     
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Hidden for serialization.
      *
      * @var list<string>
      */
@@ -34,7 +34,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Casts.
      *
      * @return array<string, string>
      */
@@ -45,4 +45,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // --- Convenience role helpers (optional) ---
+    public function isAdmin(): bool  { return $this->role === 'admin'; }
+    public function isDoctor(): bool { return $this->role === 'doctor'; }
+    public function isPatient(): bool{ return $this->role === 'patient'; }
+
+    public function appointments()
+{
+    return $this->hasMany(\App\Models\Appointment::class, 'patient_id');
+}
+
 }
