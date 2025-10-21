@@ -1,25 +1,54 @@
+@if ($errors->any())
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      @foreach($errors->all() as $e)
+        <li>{{ $e }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
 @php
-  $date = old('slot_date', optional($slot)->slot_date);
-  $start = old('start_time', optional($slot)->start_time ? substr($slot->start_time,0,5) : '');
-  $end = old('end_time', optional($slot)->end_time ? substr($slot->end_time,0,5) : '');
-  $booked = old('is_booked', optional($slot)->is_booked);
+  $slot = $slot ?? new \App\Models\TimeSlot(['is_booked' => false]);
 @endphp
 
 <div class="row g-3">
+  {{-- Slot Date --}}
   <div class="col-md-4">
-    <label class="form-label">Date</label>
-    <input type="date" name="slot_date" class="form-control" value="{{ $date }}" required>
+    <label class="form-label fw-semibold">Date</label>
+    <input type="date" name="slot_date" class="form-control shadow-sm"
+           value="{{ old('slot_date', optional($slot->slot_date)->format('Y-m-d')) }}" required>
+    @error('slot_date')
+      <div class="text-danger small mt-1">{{ $message }}</div>
+    @enderror
   </div>
+
+  {{-- Start Time --}}
   <div class="col-md-4">
-    <label class="form-label">Start Time</label>
-    <input type="time" name="start_time" class="form-control" value="{{ $start }}" required>
+    <label class="form-label fw-semibold">Start Time</label>
+    <input type="time" name="start_time" class="form-control shadow-sm"
+           value="{{ old('start_time', optional($slot->start_time)->format('H:i')) }}" required>
+    @error('start_time')
+      <div class="text-danger small mt-1">{{ $message }}</div>
+    @enderror
   </div>
+
+  {{-- End Time --}}
   <div class="col-md-4">
-    <label class="form-label">End Time</label>
-    <input type="time" name="end_time" class="form-control" value="{{ $end }}" required>
+    <label class="form-label fw-semibold">End Time</label>
+    <input type="time" name="end_time" class="form-control shadow-sm"
+           value="{{ old('end_time', optional($slot->end_time)->format('H:i')) }}" required>
+    @error('end_time')
+      <div class="text-danger small mt-1">{{ $message }}</div>
+    @enderror
   </div>
-  <div class="col-12 form-check mt-2">
-    <input class="form-check-input" type="checkbox" name="is_booked" value="1" id="is_booked" {{ $booked ? 'checked':'' }}>
-    <label class="form-check-label" for="is_booked">Mark as booked</label>
+
+  {{-- Booked Checkbox --}}
+  <div class="col-md-4 d-flex align-items-center">
+    <div class="form-check mt-4">
+      <input type="checkbox" name="is_booked" value="1" class="form-check-input"
+             {{ old('is_booked', $slot->is_booked) ? 'checked' : '' }}>
+      <label class="form-check-label fw-semibold">Mark as Booked</label>
+    </div>
   </div>
 </div>

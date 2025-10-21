@@ -10,26 +10,34 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id','doctor_id','service_id','time_slot_id','status','notes',
+        'patient_id',
+        'doctor_id',
+        'service_id',
+        'time_slot_id',
+        'status',
+        'notes',
     ];
 
+    /**
+     * Relationships
+     */
     public function patient()
     {
-        return $this->belongsTo(User::class, 'patient_id');
+        return $this->belongsTo(\App\Models\User::class, 'patient_id');
     }
 
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(\App\Models\Doctor::class);
     }
 
     public function service()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(\App\Models\Service::class);
     }
 
     public function timeSlot()
     {
-        return $this->belongsTo(TimeSlot::class);
+        return $this->belongsTo(\App\Models\TimeSlot::class);
     }
 }

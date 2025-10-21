@@ -9,22 +9,16 @@ class Service extends Model
 {
     use HasFactory;
 
-    
+    // Match only the columns that exist in your DB
     protected $fillable = [
         'name',
         'description',
-        'status',   
+        'status',
     ];
 
-    protected $casts = [
-        
-    ];
-
-    
-
+    // Relationships
     public function doctors()
     {
-        
         return $this->belongsToMany(Doctor::class, 'doctor_service')->withTimestamps();
     }
 
@@ -33,8 +27,7 @@ class Service extends Model
         return $this->hasMany(Appointment::class);
     }
 
-    
-
+    // Scopes
     public function scopeActive($query)
     {
         return $query->where('status', 'active');
@@ -50,8 +43,7 @@ class Service extends Model
         });
     }
 
-    
-
+    // Accessor
     public function getIsActiveAttribute(): bool
     {
         return $this->status === 'active';

@@ -9,13 +9,19 @@ class ServiceSeeder extends Seeder
 {
     public function run(): void
     {
+        // Only seed columns that exist in your DB (name, description, status)
         $data = [
-            ['name'=>'General Consultation','description'=>'Routine checkup','duration_minutes'=>30,'price'=>30],
-            ['name'=>'Cardiology Consultation','description'=>'Heart specialist','duration_minutes'=>45,'price'=>60],
-            ['name'=>'Dermatology Visit','description'=>'Skin consultation','duration_minutes'=>30,'price'=>40],
+            ['name' => 'General Consultation', 'description' => 'Routine checkup', 'status' => 'active'],
+            ['name' => 'Cardiology Consultation', 'description' => 'Heart specialist', 'status' => 'active'],
+            ['name' => 'Dermatology Visit', 'description' => 'Skin consultation', 'status' => 'active'],
+            ['name' => 'Flu Shot', 'description' => 'Seasonal influenza vaccine', 'status' => 'inactive'],
         ];
-        foreach ($data as $s) {
-            Service::updateOrCreate(['name'=>$s['name']], $s + ['active'=>true]);
+
+        foreach ($data as $service) {
+            Service::updateOrCreate(
+                ['name' => $service['name']],
+                $service
+            );
         }
     }
 }

@@ -9,13 +9,19 @@ class TimeSlot extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['doctor_id','date','start_time','end_time','is_booked'];
+    protected $fillable = [
+        'doctor_id',
+        'slot_date',
+        'start_time',
+        'end_time',
+        'is_booked',
+    ];
 
     protected $casts = [
-        'date' => 'date',
-        'start_time' => 'datetime:H:i:s',
-        'end_time' => 'datetime:H:i:s',
-        'is_booked' => 'boolean',
+        'slot_date'  => 'date',
+        'start_time' => 'datetime:H:i',
+        'end_time'   => 'datetime:H:i',
+        'is_booked'  => 'boolean',
     ];
 
     public function doctor()
@@ -23,8 +29,8 @@ class TimeSlot extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function appointment()
+    public function scopeAvailable($query)
     {
-        return $this->hasOne(Appointment::class);
+        return $query->where('is_booked', false);
     }
 }

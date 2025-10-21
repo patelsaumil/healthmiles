@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',     
+        'role',
     ];
 
     /**
@@ -46,14 +46,20 @@ class User extends Authenticatable
         ];
     }
 
-    // --- Convenience role helpers (optional) ---
+    // --- Convenience role helpers ---
     public function isAdmin(): bool  { return $this->role === 'admin'; }
     public function isDoctor(): bool { return $this->role === 'doctor'; }
-    public function isPatient(): bool{ return $this->role === 'patient'; }
+    public function isPatient(): bool { return $this->role === 'patient'; }
 
+    // Patient's appointments
     public function appointments()
-{
-    return $this->hasMany(\App\Models\Appointment::class, 'patient_id');
-}
+    {
+        return $this->hasMany(\App\Models\Appointment::class, 'patient_id');
+    }
 
+    // <-- Add this: link a User to their Doctor profile
+    public function doctor()
+    {
+        return $this->hasOne(\App\Models\Doctor::class, 'user_id');
+    }
 }
