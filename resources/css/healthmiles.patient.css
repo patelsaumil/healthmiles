@@ -1,0 +1,185 @@
+/* =========================================================
+   HealthMiles — Patient Theme (Figma match)
+   Scope: only when <body class="role-patient">
+   ========================================================= */
+:root{
+  --hm-bg:#f6f8fb;
+  --hm-card:#ffffff;
+  --hm-muted:#64748b;     /* slate-500 */
+  --hm-border:#e5e7eb;    /* gray-200  */
+  --hm-primary:#2563eb;   /* blue-600  */
+  --hm-primary-700:#1d4ed8;
+  --hm-success:#16a34a;
+  --hm-danger:#ef4444;
+  --hm-warning:#f59e0b;
+}
+
+/* ----- base ----- */
+.role-patient{ background:var(--hm-bg); }
+.role-patient .hm-muted{ color:var(--hm-muted); }
+.role-patient .rounded-16{ border-radius:16px; }
+.role-patient .shadow-soft{ box-shadow:0 8px 24px rgba(15,23,42,.08); }
+.role-patient .hm-card{
+  background:var(--hm-card);
+  border:1px solid var(--hm-border);
+  border-radius:16px;
+  padding:1rem;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
+}
+
+/* ----- shell (sidebar + main) ----- */
+.role-patient .hm-shell{ display:grid; grid-template-columns:260px 1fr; gap:1.25rem; }
+@media (max-width:1024px){ .role-patient .hm-shell{ grid-template-columns:1fr; } }
+
+.role-patient .hm-sidebar{
+  position:sticky; top:24px;
+  height:max-content;
+  width:260px; background:#0f172a; color:#dbeafe;
+  display:flex; flex-direction:column; gap:.25rem; padding:1rem 1rem;
+  border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.2);
+}
+.role-patient .hm-sidebar .title{ color:#93c5fd; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; margin:.75rem 0 .25rem; }
+.role-patient .hm-nav-link{
+  color:#e2e8f0; text-decoration:none; display:flex; align-items:center; gap:.5rem;
+  padding:.6rem .8rem; border-radius:10px;
+}
+.role-patient .hm-nav-link:hover{ background:#111827; }
+.role-patient .hm-nav-link.active{ background:#1f2937; color:#fff; }
+
+/* ----- hero (Figma glossy) ----- */
+.role-patient .hm-hero{
+  position:relative; border-radius:20px; padding:22px 24px;
+  background:linear-gradient(135deg,#0f1c5a 0%, #1f4de3 55%, #2e7af6 100%);
+  color:#fff; overflow:hidden;
+  box-shadow:0 14px 30px rgba(16,24,40,.18);
+}
+.role-patient .hm-hero:before{
+  content:""; position:absolute; top:-30%; right:-20%;
+  width:520px; height:520px; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(255,255,255,.18), transparent 70%);
+  filter: blur(2px);
+}
+.role-patient .hm-hero__title{ font-weight:800; font-size:clamp(24px, 2.6vw, 34px); letter-spacing:.2px; }
+.role-patient .hm-hero__subtitle{ color:rgba(255,255,255,.9); }
+.role-patient .btn-ghost{
+  background:#fff; color:#0f1c5a; border:1px solid transparent;
+  border-radius:14px; font-weight:700; transition:transform .12s ease;
+}
+.role-patient .btn-ghost:hover{ transform:translateY(-1px); }
+
+/* ----- tiles / kpis ----- */
+.role-patient .hm-kpi{ border-radius:16px; border:1px solid var(--hm-border); background:#fff; padding:1rem; }
+.role-patient .hm-kpi .value{ font-weight:800; font-size:1.25rem; }
+.role-patient .hm-tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+@media (max-width:1024px){ .role-patient .hm-tiles{ grid-template-columns:1fr; } }
+
+/* ----- quick actions ----- */
+.role-patient .hm-quick{
+  background:#fff; border:1px solid var(--hm-border); border-radius:14px; padding:1rem;
+  display:flex; align-items:center; gap:.75rem; transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 6px 14px rgba(15,23,42,.05);
+}
+.role-patient .hm-quick:hover{ transform:translateY(-2px); box-shadow:0 10px 20px rgba(15,23,42,.08); }
+.role-patient .hm-quick__icon{
+  width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--hm-border); font-size:18px;
+}
+.role-patient .hm-quick__label{ font-weight:600; }
+
+/* ----- badges + buttons ----- */
+.role-patient .hm-badge{ display:inline-block; padding:.2rem .55rem; border-radius:999px; font-size:.75rem; }
+.role-patient .badge-pending{ background:#fff7ed; color:#9a3412; border:1px solid #fed7aa; }
+.role-patient .badge-confirmed{ background:#e0f2fe; color:#075985; border:1px solid #bae6fd; }
+.role-patient .badge-completed{ background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
+.role-patient .badge-cancelled{ background:#f1f5f9; color:#334155; border:1px solid #e2e8f0; }
+
+.role-patient .btn-hm{
+  background:var(--hm-primary); color:#fff; border:1px solid var(--hm-primary);
+  border-radius:12px; font-weight:700;
+}
+.role-patient .btn-hm:hover{ background:var(--hm-primary-700); border-color:var(--hm-primary-700); }
+.role-patient .btn-soft{ border-radius:12px; border:1px solid var(--hm-border); background:#fff; }
+.role-patient .btn-soft:hover{ background:#f8fafc; }
+
+/* ----- appointment cards ----- */
+.role-patient .hm-apt-card{
+  border:1px solid var(--hm-border); border-radius:14px; background:#fff; padding:1rem;
+  box-shadow:0 6px 14px rgba(15,23,42,.05);
+}
+.role-patient .hm-apt-header{ display:flex; align-items:center; gap:.75rem; }
+.role-patient .hm-apt-avatar{ width:40px; height:40px; border-radius:999px; }
+
+/* any avatar inside doctor card or lists */
+.role-patient .doctor-card .hm-apt-avatar,
+.role-patient .doctors-grid .hm-apt-avatar{ width:56px; height:56px; }
+
+/* ----- notifications ----- */
+.role-patient .hm-notifs{ display:flex; flex-direction:column; gap:.75rem; }
+.role-patient .hm-notif{ display:flex; gap:.75rem; }
+.role-patient .hm-notif__icon{
+  width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--hm-border);
+}
+
+/* ----- empty/info states ----- */
+.role-patient .empty-info{
+  background:#e6f2ff; color:#0b4b9c; border:1px solid #cfe0ff; border-radius:14px; padding:1rem 1.25rem;
+}
+
+/* ----- forms/tables ----- */
+.role-patient .form-control,
+.role-patient .form-select,
+.role-patient textarea{
+  width:100%; border:1px solid var(--hm-border); border-radius:12px; padding:.6rem .75rem;
+  background:#fff; outline:none;
+}
+.role-patient .form-control:focus,
+.role-patient .form-select:focus,
+.role-patient textarea:focus{
+  border-color:#c7d2fe; box-shadow:0 0 0 3px rgba(199,210,254,.5);
+}
+
+/* ----- doctors grid (Step 1) ----- */
+.role-patient .doctors-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+@media (max-width:1280px){ .role-patient .doctors-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:768px){ .role-patient .doctors-grid{ grid-template-columns:1fr; } }
+
+.role-patient .doctor-card{ display:flex; flex-direction:column; gap:.75rem; }
+.role-patient .doctor-card .top{ display:flex; align-items:center; gap:.75rem; }
+.role-patient .doctor-card .services{ margin-top:.25rem; }
+.role-patient .hm-chip{
+  display:inline-block; padding:.25rem .6rem; border-radius:999px; font-size:.72rem;
+  background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0;
+}
+
+/* ----- tabs in My Appointments ----- */
+.role-patient .tabs .tab{ border:1px solid var(--hm-border); background:#fff; border-radius:999px; padding:.35rem .9rem; }
+.role-patient .tabs .tab.active{ background:#e6ecff; border-color:#c7d2fe; color:#1e40af; }
+
+/* ===== Public header/footer (used by home/about/contact) ===== */
+.hm-topbar{background:#0d1b52;color:#e6efff;border-bottom:1px solid rgba(255,255,255,.08)}
+.hm-topbar .brand{font-weight:800;letter-spacing:.2px}
+.hm-topbar a{color:#e6efff;text-decoration:none;padding:.5rem .75rem;border-radius:10px}
+.hm-topbar a:hover{background:rgba(255,255,255,.08)}
+.hm-footer{background:#0e1422;color:#b8c3d6}
+.hm-footer h6{color:#e5edff;font-weight:700;margin-bottom:.5rem}
+.hm-cta{background:linear-gradient(90deg,#21c8b2 0%,#2ea8ff 100%);color:#0f172a;border-radius:18px}
+
+/* ===== Public hero (home/about) ===== */
+.hm-hero-public{background:linear-gradient(135deg,#0f1c5a 0%,#1f4de3 55%,#2e7af6 100%);color:#fff;border-radius:8px}
+.hm-feature{border:1px solid #e5e7eb;border-radius:16px;background:#fff;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+.hm-stat{color:#fff;text-align:center}
+.hm-stat .big{font-weight:800;font-size:28px}
+
+/* ===== Shared widgets ===== */
+.hm-service-card{border:1px solid #e5e7eb;border-radius:14px;background:#fff;padding:1rem;display:flex;gap:.75rem}
+.hm-service-card.is-active{outline:2px solid #c7d2fe;background:#f8fbff}
+.hm-price{font-weight:800}
+
+/* ===== Patient search bar (dashboard header mock like Figma) ===== */
+.role-patient .hm-search{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:.55rem .75rem;gap:.5rem}
+.role-patient .hm-search input{border:0;outline:none;width:100%}
+
+/* ===== Success screen ===== */
+.hm-success{max-width:760px;margin:0 auto}
+.hm-success .card{border:1px solid #e5e7eb;background:#fff;border-radius:14px;padding:1rem}
