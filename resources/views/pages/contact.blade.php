@@ -1,53 +1,104 @@
+{{-- resources/views/pages/contact.blade.php --}}
 @extends('layouts.app')
-@section('title','Contact — HealthMiles')
+
+@section('header')
+    {{-- leave empty --}}
+@endsection
 
 @section('content')
-@include('partials.public-nav')
+<style>
+  :root{
+    --hm-blue:#2563eb;--hm-blue-2:#1d4ed8;--hm-bg:#f6f7fb;--hm-muted:#64748b;
+    --hm-border:#e5e7eb;--hm-card:#ffffff;--hm-ink:#0f172a;
+  }
+  .hm-wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .hm-hero{background:linear-gradient(180deg,#f6fbff, #eef4ff 55%, #fff 100%);padding:56px 0 24px;text-align:center}
+  .hm-hero h1{margin:0;font-size:36px;color:#0f172a}
+  .hm-hero p{margin:10px 0 0;color:#8596ac}
+  .hm-section{padding:36px 0}
+  .hm-grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
+  .hm-card{background:#fff;border:1px solid var(--hm-border);border-radius:16px;padding:18px}
+  .hm-label{display:block;font-weight:600;color:#334155;margin:10px 0 6px}
+  .hm-input,.hm-text{width:100%;padding:12px 14px;border:1px solid var(--hm-border);border-radius:12px;font:inherit}
+  .hm-select{width:100%;padding:12px 14px;border:1px solid var(--hm-border);border-radius:12px;background:#fff}
+  .btn{display:inline-block;padding:12px 18px;border-radius:12px;font-weight:700;text-decoration:none}
+  .btn-primary{background:var(--hm-blue);color:#fff}
+  .hm-pill{display:inline-block;background:#f3f6ff;border:1px solid #e5ebff;color:#0f1d6b;padding:8px 12px;border-radius:999px;font-weight:600}
+  .hm-info li{margin:8px 0;color:#334155}
+  @media (max-width:980px){.hm-grid2{grid-template-columns:1fr}}
+</style>
 
-<section class="bg-gradient-to-b from-sky-50 to-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-    <h1 class="text-3xl font-extrabold text-slate-900">Get in Touch with HealthMiles</h1>
-    <p class="text-slate-600 mt-2">We’re here to help with bookings and questions.</p>
+{{-- HERO --}}
+<section class="hm-hero">
+  <div class="hm-wrap">
+    <h1>Get in Touch with HealthMiles</h1>
+    <p>We’re here to help with bookings and questions.</p>
   </div>
 </section>
 
-<section class="bg-white pb-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-6">
-    <div class="hm-feature p-6">
-      <h2 class="font-semibold mb-4">Send us a Message</h2>
-      <form class="grid gap-3">
-        <input class="form-input rounded-xl border-slate-300" placeholder="Full name">
-        <input type="email" class="form-input rounded-xl border-slate-300" placeholder="Email address">
-        <input class="form-input rounded-xl border-slate-300" placeholder="Subject">
-        <select class="form-select rounded-xl border-slate-300"><option>General Inquiry</option><option>Appointment Support</option></select>
-        <textarea rows="4" class="form-textarea rounded-xl border-slate-300" placeholder="Message"></textarea>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl">Send Message</button>
+{{-- FORM + INFO --}}
+<section class="hm-section">
+  <div class="hm-wrap hm-grid2">
+    {{-- Form --}}
+    <div class="hm-card">
+      <form method="post" action="#" onsubmit="event.preventDefault(); alert('Demo form');">
+        <div>
+          <label class="hm-label">Full name</label>
+          <input class="hm-input" type="text" placeholder="Your full name">
+        </div>
+        <div>
+          <label class="hm-label">Email address</label>
+          <input class="hm-input" type="email" placeholder="name@example.com">
+        </div>
+        <div>
+          <label class="hm-label">Subject</label>
+          <input class="hm-input" type="text" placeholder="How can we help?">
+        </div>
+        <div>
+          <label class="hm-label">Category</label>
+          <select class="hm-select">
+            <option>General Inquiry</option>
+            <option>Booking Support</option>
+            <option>Technical Issue</option>
+            <option>Feedback</option>
+          </select>
+        </div>
+        <div>
+          <label class="hm-label">Message</label>
+          <textarea class="hm-text" rows="6" placeholder="Write your message here..."></textarea>
+        </div>
+        <div style="margin-top:14px">
+          <button class="btn btn-primary" type="submit">Send Message</button>
+        </div>
       </form>
     </div>
 
-    <div class="hm-feature p-6">
-      <h2 class="font-semibold mb-4">Contact Information</h2>
-      <ul class="space-y-2 text-slate-700">
-        <li>📍 123 Health St, Toronto, ON</li>
-        <li>📞 +1 (555) 123-4567</li>
-        <li>✉️ support@healthmiles.local</li>
-        <li>🕘 Mon–Sat, 9am–6pm</li>
-      </ul>
-      <div class="mt-4 text-slate-500 text-sm">Follow</div>
-      <div class="flex gap-2 mt-2">
-        <a class="px-3 py-2 rounded-lg border border-slate-200">Twitter</a>
-        <a class="px-3 py-2 rounded-lg border border-slate-200">Facebook</a>
-        <a class="px-3 py-2 rounded-lg border border-slate-200">Instagram</a>
+    {{-- Contact details --}}
+    <div>
+      <div class="hm-card">
+        <h3 style="margin:0 0 10px">Contact Information</h3>
+        <ul class="hm-info" style="list-style:none;padding:0;margin:0">
+          <li>📍 123 Health St, Toronto, ON</li>
+          <li>📞 +1 (555) 123-4567</li>
+          <li>✉️ support@healthmiles.local</li>
+          <li>⏰ Mon–Sat, 9am–6pm</li>
+        </ul>
+
+        <div style="margin:14px 0 8px;color:#334155;font-weight:600">Follow</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="hm-pill">Twitter</span>
+          <span class="hm-pill">Facebook</span>
+          <span class="hm-pill">Instagram</span>
+        </div>
+      </div>
+
+      <div class="hm-card" style="margin-top:16px">
+        <h3 style="margin:0 0 10px">Find Us</h3>
+        <div style="background:#eef2ff;border:1px dashed #c7d2fe;border-radius:12px;height:220px;display:grid;place-items:center;color:#475569">
+          Map placeholder
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-    <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-      <img class="w-full h-72 object-cover" src="https://images.unsplash.com/photo-1526403222941-3ebd9d8a6b83?q=80&w=1400&auto=format&fit=crop">
-    </div>
-  </div>
 </section>
-
-@include('partials.public-footer')
 @endsection

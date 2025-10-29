@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
+// --- Auth (public) ---
+use App\Http\Controllers\Auth\DoctorRegistrationController;
+
 // --- Admin controllers
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -21,11 +24,10 @@ use App\Http\Controllers\Patient\AppointmentController as PatientAppointmentCont
 |--------------------------------------------------------------------------
 | Public marketing pages
 |--------------------------------------------------------------------------
-| These match your Figma home/about/contact pages under resources/views/pages/
 */
-Route::view('/', 'pages.home')->name('home');                // resources/views/pages/home.blade.php
-Route::view('/about', 'pages.about')->name('about');         // resources/views/pages/about.blade.php
-Route::view('/contact', 'pages.contact')->name('contact');   // resources/views/pages/contact.blade.php
+Route::view('/', 'pages.home')->name('home');
+Route::view('/about', 'pages.about')->name('about');
+Route::view('/contact', 'pages.contact')->name('contact');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +47,7 @@ Route::get('/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Common Profile Routes (Breeze/Jetstream default)
+| Common Profile Routes
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
@@ -77,10 +79,10 @@ Route::middleware(['auth', 'role:admin'])
 
 /*
 |--------------------------------------------------------------------------
-| Doctor
+| Doctor  (NOTE: ensure.doctor.profile added)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:doctor'])
+Route::middleware(['auth', 'role:doctor', 'ensure.doctor.profile'])
     ->prefix('doctor')->as('doctor.')
     ->group(function () {
         Route::view('/', 'doctor.dashboard')->name('dashboard');
@@ -99,12 +101,22 @@ Route::middleware(['auth', 'role:doctor'])
 
 /*
 |--------------------------------------------------------------------------
-| Patient Registration (guest) — uses users table (role=patient)
+| Patient Registration (guest)
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
     Route::get('/patient/register', [PatientRegistrationController::class, 'create'])->name('patient.register');
     Route::post('/patient/register', [PatientRegistrationController::class, 'store'])->name('patient.register.store');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Doctor Registration (guest)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/register/doctor', [DoctorRegistrationController::class, 'create'])->name('doctor.register');
+    Route::post('/register/doctor', [DoctorRegistrationController::class, 'store'])->name('doctor.register.store');
 });
 
 /*

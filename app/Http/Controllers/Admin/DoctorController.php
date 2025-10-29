@@ -23,7 +23,7 @@ class DoctorController extends Controller
                       ->orWhere('specialty', 'like', "%{$search}%");
                 });
             })
-            ->withCount(['services','timeSlots'])   // requires doctor_service pivot
+            ->withCount(['services','timeSlots'])   
             ->latest('id')
             ->paginate(10)
             ->withQueryString();

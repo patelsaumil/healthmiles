@@ -1,103 +1,124 @@
 @extends('layouts.app')
-@section('title', 'Select Service & Time — Book Appointment')
+
+@section('title', 'Select a Time • HealthMiles')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 role-patient">
-
-  {{-- PROGRESS BREADCRUMB --}}
-  <div class="text-sm hm-muted mb-3">
-    Book Appointment · <span class="text-slate-700">Select Doctor</span> · <span class="text-slate-900 font-semibold">Select Service & Time</span>
-  </div>
-
-  {{-- DOCTOR HEADER --}}
-  <div class="hm-card mb-4">
-    <div class="flex items-center gap-3">
-      <img class="hm-apt-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed={{ urlencode($doctor->name) }}">
-      <div class="flex-1">
-        <div class="font-semibold">{{ $doctor->name }}</div>
-        <small class="hm-muted block">
-          {{ $doctor->email }}
-          @if($doctor->services->count())
-            · {{ $doctor->services->pluck('name')->take(2)->implode(', ') }}@if($doctor->services->count()>2) +{{ $doctor->services->count()-2 }}@endif
-          @endif
-        </small>
-      </div>
-      <a href="{{ route('patient.appointments.index') }}" class="btn-soft px-3 py-2 text-sm">Change Doctor</a>
+<div class="container my-4 role-patient">
+    {{-- Back + Doctor header --}}
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <a href="{{ route('patient.appointments.index', ['service_id' => $serviceIdFixed]) }}" class="btn btn-soft">
+            ← Back to doctors
+        </a>
+        <div></div>
     </div>
-  </div>
 
-  {{-- SELECT SERVICE --}}
-  <div class="grid lg:grid-cols-2 gap-4 mb-4">
-    @foreach ($services as $s)
-      <a class="hm-service-card {{ (int)$serviceId === (int)$s->id ? 'is-active' : '' }}"
-         href="{{ route('patient.appointments.doctor', ['doctor' => $doctor->id, 'service_id' => $s->id]) }}">
-        <div class="w-9 h-9 rounded-lg bg-blue-50 grid place-items-center">🩺</div>
-        <div class="flex-1">
-          <div class="flex items-center justify-between">
-            <div class="font-semibold">{{ $s->name }}</div>
-            @if(!is_null($s->price)) <div class="hm-price">${{ number_format($s->price, 2) }}</div> @endif
-          </div>
-          <small class="hm-muted block">{{ $s->duration ?? 30 }} minutes</small>
-        </div>
-      </a>
-    @endforeach
-  </div>
-
-  {{-- SELECT SLOT + BOOK --}}
-  <form method="POST" action="{{ route('patient.appointments.store') }}">
-    @csrf
-    <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
-    <input type="hidden" name="service_id" id="serviceInput" value="{{ $serviceId }}">
-    <input type="hidden" name="time_slot_id" id="slotInput">
-
-    <div class="hm-card">
-      <div class="flex items-center justify-between mb-2">
-        <div class="font-semibold">Available Time Slots</div>
-        <div class="hm-muted text-sm">Pick one to continue</div>
-      </div>
-
-      @if ($slots->count())
-        <div class="grid md:grid-cols-2 gap-2">
-          @foreach ($slots as $slot)
-            @php
-              // Accept either start_at/end_at or date + start_time/end_time shapes
-              $start = $slot->start_at ?? ($slot->date.' '.$slot->start_time);
-              $end   = $slot->end_at   ?? ($slot->date.' '.$slot->end_time);
-              $s = \Carbon\Carbon::parse($start);
-              $e = \Carbon\Carbon::parse($end);
-            @endphp
-            <label class="hm-apt-card cursor-pointer">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="font-medium">{{ $s->format('D, M d, Y') }}</div>
-                  <small class="hm-muted">{{ $s->format('h:i A') }} – {{ $e->format('h:i A') }}</small>
+    {{-- Hero --}}
+    <div class="hm-card shadow-soft p-3 p-md-4">
+        <div class="d-flex align-items-center gap-3">
+            <img
+                class="hm-apt-avatar"
+                src="https://api.dicebear.com/9.x/initials/svg?seed={{ urlencode($doctor->name) }}"
+                alt="Avatar">
+            <div>
+                <h3 class="mb-0 text-capitalize">{{ $doctor->name }}</h3>
+                <div class="hm-muted small mt-1">
+                    @forelse($doctor->services as $s)
+                        <span class="hm-chip me-1">{{ $s->name }}</span>
+                    @empty
+                        <span class="hm-chip me-1">General Consultation</span>
+                    @endforelse
                 </div>
-                <input type="radio" name="slot_pick" value="{{ $slot->id }}" class="slot-radio">
-              </div>
-            </label>
-          @endforeach
+            </div>
         </div>
-      @else
-        <div class="empty-info">No upcoming slots for this doctor and service yet.</div>
-      @endif
     </div>
 
-    <div class="flex items-center gap-2 mt-4">
-      <a href="{{ route('patient.appointments.index') }}" class="btn-soft px-4 py-2">Previous</a>
-      <button type="submit" class="btn-hm px-5 py-2"
-              onclick="return ensureSlot()">Next: Confirm Booking</button>
+    {{-- Booking Card --}}
+    <div class="hm-card shadow-soft mt-3 p-3 p-md-4">
+        <form method="POST" action="{{ route('patient.appointments.store') }}" id="bookForm">
+            @csrf
+            <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
+
+            {{-- Service (doctor-only) --}}
+            @php $readonly = $availableServices->count() === 1; @endphp
+            <div class="row g-3 align-items-end">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Service</label>
+                    <select name="service_id" class="form-select" {{ $readonly ? 'disabled' : '' }} required>
+                        @foreach($availableServices as $s)
+                            <option value="{{ $s->id }}" @selected((int)$serviceIdFixed === (int)$s->id)>
+                                {{ $s->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if($readonly)
+                        <input type="hidden" name="service_id" value="{{ $serviceIdFixed }}">
+                    @endif
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            {{-- Slots --}}
+            <h5 class="mb-3">Select a Date & Time</h5>
+
+            @php
+                use Carbon\Carbon;
+                function hm_format_slot_ts($ts) {
+                    if (!empty($ts->start_at)) {
+                        $start = Carbon::parse($ts->start_at);
+                        $end   = !empty($ts->end_at) ? Carbon::parse($ts->end_at) : null;
+                        $dateText = $start->format('M j, Y');
+                        $timeText = $start->format('g:i A') . ($end ? ' – '.$end->format('g:i A') : '');
+                        return [$dateText, $timeText];
+                    }
+                    $d = $ts->slot_date ?? $ts->date ?? null;
+                    $dateText = $d ? Carbon::parse($d)->format('M j, Y') : '—';
+                    $fmt = fn($t) => $t ? Carbon::parse($t)->format('g:i A') : '';
+                    $startT = $ts->start_time ?? null;
+                    $endT   = $ts->end_time ?? null;
+                    $timeText = trim($fmt($startT) . ($endT ? ' – '.$fmt($endT) : ''));
+                    return [$dateText, $timeText];
+                }
+            @endphp
+
+            @if($slots->isEmpty())
+                <div class="empty-info">No upcoming slots are available for this doctor.</div>
+            @else
+                <div class="doctor-grid mt-2">
+                    @foreach($slots as $i => $ts)
+                        @php([$dateText, $timeText] = hm_format_slot_ts($ts))
+                        <label class="doctor-card hm-quick p-3" style="cursor:pointer;">
+                            <div class="top d-flex align-items-start">
+                                <input
+                                    type="radio"
+                                    class="form-check-input me-2 mt-1"
+                                    name="time_slot_id"
+                                    value="{{ $ts->id }}"
+                                    @checked($i===0)
+                                    required
+                                >
+                                <div>
+                                    <div class="fw-semibold">{{ $dateText }}</div>
+                                    <div class="hm-muted">{{ $timeText }}</div>
+                                </div>
+                            </div>
+                        </label>
+                    @endforeach
+                </div>
+            @endif
+
+            {{-- Notes --}}
+            <div class="mt-4">
+                <label class="form-label fw-semibold">Notes (optional)</label>
+                <textarea name="notes" rows="3" class="form-control"
+                          placeholder="Anything your doctor should know in advance?"></textarea>
+            </div>
+
+            {{-- Submit --}}
+            <div class="mt-4 d-flex justify-content-end">
+                <button type="submit" class="btn btn-hm px-4">Book Appointment</button>
+            </div>
+        </form>
     </div>
-  </form>
 </div>
-
-<script>
-  const slotRadios = document.querySelectorAll('.slot-radio');
-  const slotInput  = document.getElementById('slotInput');
-  function ensureSlot(){
-    const checked = Array.from(slotRadios).find(r => r.checked);
-    if(!checked){ alert('Please select a time slot.'); return false; }
-    slotInput.value = checked.value;
-    return true;
-  }
-</script>
 @endsection

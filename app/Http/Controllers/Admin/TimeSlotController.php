@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class TimeSlotController extends Controller
 {
-    /** List slots for a given doctor (nested) */
+    
     public function index(Doctor $doctor)
     {
         $slots = $doctor->timeSlots()
@@ -20,14 +20,14 @@ class TimeSlotController extends Controller
         return view('admin.timeslots.index', compact('doctor', 'slots'));
     }
 
-    /** Show create form (nested) */
+    
     public function create(Doctor $doctor)
     {
         $slot = new TimeSlot(['is_booked' => false]);
         return view('admin.timeslots.create', compact('doctor', 'slot'));
     }
 
-    /** Store (nested) */
+    
     public function store(Request $request, Doctor $doctor)
     {
         $data = $this->validateData($request);
@@ -43,7 +43,7 @@ class TimeSlotController extends Controller
             ->with('success', 'Time slot created.');
     }
 
-    /** Shallow show (optional) */
+    
     public function show(TimeSlot $timeslot)
     {
         return view('admin.timeslots.show', [
@@ -52,7 +52,7 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    /** Shallow edit */
+    
     public function edit(TimeSlot $timeslot)
     {
         return view('admin.timeslots.edit', [
@@ -61,7 +61,7 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    /** Shallow update */
+    
     public function update(Request $request, TimeSlot $timeslot)
     {
         $data = $this->validateData($request);
@@ -76,7 +76,7 @@ class TimeSlotController extends Controller
             ->with('success', 'Time slot updated.');
     }
 
-    /** Shallow destroy */
+    
     public function destroy(TimeSlot $timeslot)
     {
         $doctor = $timeslot->doctor;
@@ -87,7 +87,7 @@ class TimeSlotController extends Controller
             ->with('success', 'Time slot deleted.');
     }
 
-    /* --------------------------- helpers --------------------------- */
+    
 
     private function validateData(Request $request): array
     {
@@ -99,7 +99,7 @@ class TimeSlotController extends Controller
         ]);
     }
 
-    /** Prevent overlapping slots for same doctor+date */
+    
     private function guardOverlap(int $doctorId, $date, $start, $end, $ignoreId = null): void
     {
         $q = TimeSlot::where('doctor_id', $doctorId)

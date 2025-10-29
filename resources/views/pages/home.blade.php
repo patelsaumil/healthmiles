@@ -13,9 +13,11 @@
     .nav{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06)}
     .nav .row{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
     .nav a{color:#334155;text-decoration:none;margin:0 10px;font-weight:600}
-    .btn{padding:10px 16px;border-radius:10px;font-weight:700;display:inline-block}
+    .btn{padding:10px 16px;border-radius:10px;font-weight:700;display:inline-block;text-decoration:none}
     .btn-primary{background:var(--blue);color:#fff}
     .btn-ghost{background:#fff;color:var(--blue);border:1px solid #e5e7eb}
+    .btn-outline{color:var(--blue);border:2px solid var(--blue);background:#fff}
+    .btn-outline:hover{background:var(--blue);color:#fff}
     /* Hero */
     .hero{background:linear-gradient(90deg,var(--blue2),var(--blue));color:#fff;padding:64px 0}
     .hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
@@ -54,6 +56,7 @@
         <a href="{{ route('contact') }}">Contact</a>
         <a href="{{ route('login') }}">Login</a>
         <a class="btn btn-primary" href="{{ route('register') }}">Register</a>
+        <a class="btn btn-outline" href="{{ route('doctor.register') }}">Doctor Register</a>
       </nav>
     </div>
   </header>
@@ -68,6 +71,7 @@
           <div style="display:flex;gap:12px;flex-wrap:wrap">
             <a class="btn btn-primary" href="{{ route('patient.appointments.index') }}">Book Appointment</a>
             <a class="btn btn-ghost" href="{{ route('about') }}">Learn More</a>
+            <a class="btn btn-outline" href="{{ route('doctor.register') }}">Become a Doctor</a>
           </div>
         </div>
         <div style="display:grid;place-items:center">

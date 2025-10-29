@@ -1,7 +1,4 @@
-/* =========================================================
-   HealthMiles — Patient Theme (Figma match)
-   Scope: only when <body class="role-patient">
-   ========================================================= */
+/* ---------- CSS Variables ---------- */
 :root{
   --hm-bg:#f6f8fb;
   --hm-card:#ffffff;
@@ -12,9 +9,11 @@
   --hm-success:#16a34a;
   --hm-danger:#ef4444;
   --hm-warning:#f59e0b;
+  --hm-ink:#0f172a;
+  --hm-wrap:1120px;
 }
 
-/* ----- base ----- */
+/* ---------- Patient shell & basics ---------- */
 .role-patient{ background:var(--hm-bg); }
 .role-patient .hm-muted{ color:var(--hm-muted); }
 .role-patient .rounded-16{ border-radius:16px; }
@@ -27,7 +26,6 @@
   box-shadow:0 6px 18px rgba(15,23,42,.05);
 }
 
-/* ----- shell (sidebar + main) ----- */
 .role-patient .hm-shell{ display:grid; grid-template-columns:260px 1fr; gap:1.25rem; }
 @media (max-width:1024px){ .role-patient .hm-shell{ grid-template-columns:1fr; } }
 
@@ -38,7 +36,10 @@
   display:flex; flex-direction:column; gap:.25rem; padding:1rem 1rem;
   border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.2);
 }
-.role-patient .hm-sidebar .title{ color:#93c5fd; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; margin:.75rem 0 .25rem; }
+.role-patient .hm-sidebar .title{
+  color:#93c5fd; font-size:.72rem; letter-spacing:.08em;
+  text-transform:uppercase; margin:.75rem 0 .25rem;
+}
 .role-patient .hm-nav-link{
   color:#e2e8f0; text-decoration:none; display:flex; align-items:center; gap:.5rem;
   padding:.6rem .8rem; border-radius:10px;
@@ -46,7 +47,7 @@
 .role-patient .hm-nav-link:hover{ background:#111827; }
 .role-patient .hm-nav-link.active{ background:#1f2937; color:#fff; }
 
-/* ----- hero (Figma glossy) ----- */
+/* ---------- Hero (dashboard-style) ---------- */
 .role-patient .hm-hero{
   position:relative; border-radius:20px; padding:22px 24px;
   background:linear-gradient(135deg,#0f1c5a 0%, #1f4de3 55%, #2e7af6 100%);
@@ -67,13 +68,13 @@
 }
 .role-patient .btn-ghost:hover{ transform:translateY(-1px); }
 
-/* ----- tiles / kpis ----- */
+/* ---------- Tiles / KPIs ---------- */
 .role-patient .hm-kpi{ border-radius:16px; border:1px solid var(--hm-border); background:#fff; padding:1rem; }
 .role-patient .hm-kpi .value{ font-weight:800; font-size:1.25rem; }
 .role-patient .hm-tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
 @media (max-width:1024px){ .role-patient .hm-tiles{ grid-template-columns:1fr; } }
 
-/* ----- quick actions ----- */
+/* ---------- Quick Actions ---------- */
 .role-patient .hm-quick{
   background:#fff; border:1px solid var(--hm-border); border-radius:14px; padding:1rem;
   display:flex; align-items:center; gap:.75rem; transition:transform .15s ease, box-shadow .15s ease;
@@ -86,7 +87,7 @@
 }
 .role-patient .hm-quick__label{ font-weight:600; }
 
-/* ----- badges + buttons ----- */
+/* ---------- Badges / Buttons ---------- */
 .role-patient .hm-badge{ display:inline-block; padding:.2rem .55rem; border-radius:999px; font-size:.75rem; }
 .role-patient .badge-pending{ background:#fff7ed; color:#9a3412; border:1px solid #fed7aa; }
 .role-patient .badge-confirmed{ background:#e0f2fe; color:#075985; border:1px solid #bae6fd; }
@@ -101,19 +102,19 @@
 .role-patient .btn-soft{ border-radius:12px; border:1px solid var(--hm-border); background:#fff; }
 .role-patient .btn-soft:hover{ background:#f8fafc; }
 
-/* ----- appointment cards ----- */
+/* ---------- Appointment Cards ---------- */
 .role-patient .hm-apt-card{
   border:1px solid var(--hm-border); border-radius:14px; background:#fff; padding:1rem;
   box-shadow:0 6px 14px rgba(15,23,42,.05);
 }
 .role-patient .hm-apt-header{ display:flex; align-items:center; gap:.75rem; }
+
+/* avatar defaults (Step-1 compact list used 48px, Step-2 uses 80px explicitly below) */
 .role-patient .hm-apt-avatar{ width:40px; height:40px; border-radius:999px; }
-
-/* any avatar inside doctor card or lists */
 .role-patient .doctor-card .hm-apt-avatar,
-.role-patient .doctors-grid .hm-apt-avatar{ width:56px; height:56px; }
+.role-patient .doctors-grid .hm-apt-avatar{ width:48px; height:48px; }
 
-/* ----- notifications ----- */
+/* ---------- Notifications ---------- */
 .role-patient .hm-notifs{ display:flex; flex-direction:column; gap:.75rem; }
 .role-patient .hm-notif{ display:flex; gap:.75rem; }
 .role-patient .hm-notif__icon{
@@ -121,12 +122,12 @@
   border:1px solid var(--hm-border);
 }
 
-/* ----- empty/info states ----- */
+/* ---------- Empty/Info ---------- */
 .role-patient .empty-info{
   background:#e6f2ff; color:#0b4b9c; border:1px solid #cfe0ff; border-radius:14px; padding:1rem 1.25rem;
 }
 
-/* ----- forms/tables ----- */
+/* ---------- Forms ---------- */
 .role-patient .form-control,
 .role-patient .form-select,
 .role-patient textarea{
@@ -139,47 +140,185 @@
   border-color:#c7d2fe; box-shadow:0 0 0 3px rgba(199,210,254,.5);
 }
 
-/* ----- doctors grid (Step 1) ----- */
-.role-patient .doctors-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
-@media (max-width:1280px){ .role-patient .doctors-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:768px){ .role-patient .doctors-grid{ grid-template-columns:1fr; } }
 
-.role-patient .doctor-card{ display:flex; flex-direction:column; gap:.75rem; }
-.role-patient .doctor-card .top{ display:flex; align-items:center; gap:.75rem; }
-.role-patient .doctor-card .services{ margin-top:.25rem; }
-.role-patient .hm-chip{
-  display:inline-block; padding:.25rem .6rem; border-radius:999px; font-size:.72rem;
-  background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0;
+.role-patient .doctor-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+  gap:1.25rem;
 }
 
-/* ----- tabs in My Appointments ----- */
+.role-patient .doctor-card{
+  background:#fff;
+  border:1px solid var(--hm-border);
+  border-radius:16px;
+  padding:1.25rem;
+  text-align:center;
+  transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 6px 14px rgba(15,23,42,.06);
+}
+.role-patient .doctor-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(15,23,42,.10);
+}
+
+/* avatar fix (prevents huge images) */
+.role-patient .doctor-card .doctor-avatar,
+.role-patient .doctor-card img,
+.role-patient .doctor-card svg{
+  width:80px; height:80px; display:block; margin:0 auto 10px auto;
+  border-radius:50%; object-fit:cover; background:#f8fafc; border:3px solid #f1f5f9;
+}
+
+.role-patient .doctor-card .name{ font-weight:700; font-size:1rem; color:#0f172a; margin-bottom:.25rem; }
+.role-patient .doctor-card .meta{ font-size:.85rem; color:var(--hm-muted); margin-bottom:.5rem; }
+
+.role-patient .doctor-card .services{ margin:.35rem 0 .75rem; }
+.role-patient .doctor-card .services .badge{
+  background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; font-weight:600;
+}
+
+.role-patient .doctor-card .btn-hm{
+  background:var(--hm-primary); color:#fff; border:1px solid var(--hm-primary);
+  border-radius:10px; font-weight:700; padding:.5rem .9rem;
+}
+.role-patient .doctor-card .btn-hm:hover{
+  background:var(--hm-primary-700); border-color:var(--hm-primary-700);
+}
+
+/* rating line (optional) */
+.role-patient .doctor-card .rating{
+  display:flex; align-items:center; justify-content:center;
+  gap:.35rem; font-size:.85rem; color:#334155; margin-top:.25rem;
+}
+
+/* ---------- Tabs in My Appointments ---------- */
 .role-patient .tabs .tab{ border:1px solid var(--hm-border); background:#fff; border-radius:999px; padding:.35rem .9rem; }
 .role-patient .tabs .tab.active{ background:#e6ecff; border-color:#c7d2fe; color:#1e40af; }
 
-/* ===== Public header/footer (used by home/about/contact) ===== */
-.hm-topbar{background:#0d1b52;color:#e6efff;border-bottom:1px solid rgba(255,255,255,.08)}
-.hm-topbar .brand{font-weight:800;letter-spacing:.2px}
-.hm-topbar a{color:#e6efff;text-decoration:none;padding:.5rem .75rem;border-radius:10px}
-.hm-topbar a:hover{background:rgba(255,255,255,.08)}
-.hm-footer{background:#0e1422;color:#b8c3d6}
-.hm-footer h6{color:#e5edff;font-weight:700;margin-bottom:.5rem}
-.hm-cta{background:linear-gradient(90deg,#21c8b2 0%,#2ea8ff 100%);color:#0f172a;border-radius:18px}
+/* ---------- Search ---------- */
+.role-patient .hm-search{ background:#fff; border:1px solid #e5e7eb; border-radius:10px;
+  padding:.55rem .75rem; gap:.5rem; display:flex; align-items:center; }
+.role-patient .hm-search input{ border:0; outline:none; width:100%; }
 
-/* ===== Public hero (home/about) ===== */
-.hm-hero-public{background:linear-gradient(135deg,#0f1c5a 0%,#1f4de3 55%,#2e7af6 100%);color:#fff;border-radius:8px}
-.hm-feature{border:1px solid #e5e7eb;border-radius:16px;background:#fff;box-shadow:0 8px 22px rgba(15,23,42,.06)}
-.hm-stat{color:#fff;text-align:center}
-.hm-stat .big{font-weight:800;font-size:28px}
+/* ---------- Success screen ---------- */
+.hm-success{ max-width:760px; margin:0 auto; }
+.hm-success .card{ border:1px solid #e5e7eb; background:#fff; border-radius:14px; padding:1rem; }
 
-/* ===== Shared widgets ===== */
-.hm-service-card{border:1px solid #e5e7eb;border-radius:14px;background:#fff;padding:1rem;display:flex;gap:.75rem}
-.hm-service-card.is-active{outline:2px solid #c7d2fe;background:#f8fbff}
-.hm-price{font-weight:800}
 
-/* ===== Patient search bar (dashboard header mock like Figma) ===== */
-.role-patient .hm-search{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:.55rem .75rem;gap:.5rem}
-.role-patient .hm-search input{border:0;outline:none;width:100%}
+.hm-topbar{ background:#0d1b52; color:#e6efff; border-bottom:1px solid rgba(255,255,255,.08); }
+.hm-topbar .wrap{ max-width:var(--hm-wrap); margin:0 auto; padding:12px 24px;
+  display:flex; align-items:center; justify-content:space-between; }
+.hm-topbar .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#e6efff; }
+.hm-topbar .brand .logo{ width:36px; height:36px; border-radius:10px; background:#0f2b78; display:grid; place-items:center; }
+.hm-topbar nav a{ color:#e6efff; text-decoration:none; padding:.5rem .75rem; border-radius:10px; font-weight:600; }
+.hm-topbar nav a:hover{ background:rgba(255,255,255,.08); }
+.hm-topbar .cta-register{ background:#0f2b78; color:#fff; padding:.5rem .9rem; border-radius:10px; text-decoration:none; font-weight:700; }
 
-/* ===== Success screen ===== */
-.hm-success{max-width:760px;margin:0 auto}
-.hm-success .card{border:1px solid #e5e7eb;background:#fff;border-radius:14px;padding:1rem}
+.hm-hero-public{ background:linear-gradient(135deg,#0f1c5a 0%,#1f4de3 55%,#2e7af6 100%); color:#fff; border-radius:12px; padding:28px 24px; }
+.hm-feature{ border:1px solid #e5e7eb; border-radius:16px; background:#fff; box-shadow:0 8px 22px rgba(15,23,42,.06); }
+.hm-stat{ color:#fff; text-align:center; } .hm-stat .big{ font-weight:800; font-size:28px; }
+
+.hm-service-card{ border:1px solid #e5e7eb; border-radius:14px; background:#fff; padding:1rem; display:flex; gap:.75rem; }
+.hm-service-card.is-active{ outline:2px solid #c7d2fe; background:#f8fbff; }
+.hm-price{ font-weight:800; }
+
+.hm-footer{ background:#0e1422; color:#b8c3d6; }
+.hm-footer .wrap{ max-width:var(--hm-wrap); margin:0 auto; padding:36px 24px; }
+.hm-footer h6{ color:#e5edff; font-weight:700; margin-bottom:.5rem; }
+.hm-footgrid{ display:grid; grid-template-columns:2fr 1fr 1fr 1.2fr; gap:24px; }
+.hm-footbrand .brand{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.hm-footbrand .name{ font-weight:700; color:#e6efff; }
+.hm-footbrand p{ color:#9aa9c0; margin:10px 0 16px; }
+.hm-footbrand .social a{
+  display:inline-block; width:28px; height:28px; border-radius:6px;
+  background:#0d1f5a; color:#cbd5e1; text-align:center; line-height:28px;
+  margin-right:6px; text-decoration:none;
+}
+.hm-footlinks{ list-style:none; padding:0; margin:0; }
+.hm-footlinks li{ margin:8px 0; }
+.hm-footlinks a{ color:#cbd5e1; text-decoration:none; }
+.hm-footlinks a:hover{ color:#fff; }
+.hm-footbottom{
+  display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid #172033; margin-top:24px; padding-top:16px; font-size:14px;
+}
+.hm-footbottom .policies a{ color:#9aa9c0; margin-left:14px; text-decoration:none; }
+@media (max-width:980px){
+  .hm-footgrid{ grid-template-columns:1fr 1fr; }
+  .hm-footbottom{ flex-direction:column; gap:10px; }
+}
+.hm-cta{ background:linear-gradient(90deg,#21c8b2 0%,#2ea8ff 100%); color:#0f172a; border-radius:18px; padding:18px 20px; }
+
+/* --- Profile polish (matches patient theme) --- */
+.hm-shell{max-width:1120px}
+.hm-section{background:var(--hm-card,#fff)}
+.hm-avatar{
+  width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#e0e7ff;color:#1d4ed8;font-weight:800;
+}
+.hm-form .form-control{
+  border-radius:12px;
+  padding:.7rem .9rem;
+}
+.hm-form .btn-hm{
+  background:var(--hm-primary,#2563eb);
+  color:#fff;border:none;border-radius:12px;
+}
+.btn-soft{
+  background:#f1f5f9;border:1px solid #e5e7eb;border-radius:12px;color:#0f172a;
+}
+.hm-alert{border:1px solid var(--hm-border,#e5e7eb);border-radius:12px;padding:.75rem 1rem}
+.hm-alert--ok{background:#ecfdf5;border-color:#bbf7d0;color:#065f46}
+.hm-alert--err{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
+
+
+
+
+/* Grid alias used by Step-2 view */
+.role-patient .doctors-grid{
+  display:grid; gap:12px;
+  grid-template-columns:repeat(1,minmax(0,1fr));
+}
+@media (min-width:576px){ .role-patient .doctors-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:992px){ .role-patient .doctors-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:1200px){ .role-patient .doctors-grid{ grid-template-columns:repeat(4,1fr); } }
+
+/* Step-2 hero avatar uses 80×80 */
+.role-patient .hm-apt-avatar{
+  width:80px; height:80px; border-radius:50%; object-fit:cover;
+  border:1px solid var(--hm-border);
+}
+
+/* Chips under doctor name */
+.role-patient .hm-chip{
+  display:inline-block; padding:.28rem .6rem; border-radius:999px;
+  background:#f1f5f9; color:#0f172a; font-size:.82rem; border:1px solid var(--hm-border);
+}
+
+/* Slot cards: hover + selected highlight */
+.role-patient .hover-lift{
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.role-patient .hover-lift:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(15,23,42,.12);
+}
+.role-patient .doctor-card{
+  background:#fff; border:1px solid var(--hm-border); border-radius:16px;
+}
+.role-patient .doctor-card.is-selected{
+  border-color: var(--hm-primary);
+  box-shadow: 0 10px 30px rgba(37,99,235,.15);
+}
+
+/* Reinforce buttons used on Step-2 */
+.role-patient .btn-soft{
+  border-radius:12px; border:1px solid var(--hm-border); background:#fff; color:var(--hm-ink);
+  padding:.45rem .75rem;
+}
+.role-patient .btn-soft:hover{ background:#f8fafc; }
+.role-patient .btn-hm{
+  background:var(--hm-primary); color:#fff; border:1px solid var(--hm-primary); border-radius:12px;
+}
+.role-patient .btn-hm:hover{ background:var(--hm-primary-700); border-color:var(--hm-primary-700); }

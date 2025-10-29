@@ -11,9 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Register route middleware aliases here (Laravel 11)
+        
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'ensure.doctor.profile' => \App\Http\Middleware\EnsureDoctorProfile::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
