@@ -20,20 +20,12 @@ use App\Http\Controllers\Doctor\AvailabilityController as DoctorAvailabilityCont
 use App\Http\Controllers\Patient\PatientRegistrationController;
 use App\Http\Controllers\Patient\AppointmentController as PatientAppointmentController;
 
-/*
-|--------------------------------------------------------------------------
-| Public marketing pages
-|--------------------------------------------------------------------------
-*/
+
 Route::view('/', 'pages.home')->name('home');
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
 
-/*
-|--------------------------------------------------------------------------
-| After login, send users to their role dashboard
-|--------------------------------------------------------------------------
-*/
+
 Route::get('/dashboard', function () {
     $user = auth()->user();
 
@@ -119,11 +111,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/doctor', [DoctorRegistrationController::class, 'store'])->name('doctor.register.store');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Patient (auth, role:patient)
-|--------------------------------------------------------------------------
-*/
+
 Route::middleware(['auth', 'role:patient'])
     ->prefix('patient')->as('patient.')
     ->group(function () {

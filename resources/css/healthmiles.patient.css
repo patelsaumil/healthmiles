@@ -160,6 +160,41 @@
   transform:translateY(-3px);
   box-shadow:0 10px 22px rgba(15,23,42,.10);
 }
+/* Patient login screen polish */
+.bg-hm { background: var(--hm-bg); }
+
+.auth-shell { width: 100%; max-width: 420px; padding: 24px 12px; }
+
+.stack-16 > * + * { margin-top: 16px; }
+
+.hm-label { font-weight: 600; color: var(--hm-ink); }
+
+.hm-input {
+  border: 1px solid var(--hm-border);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: box-shadow .2s, border-color .2s;
+}
+.hm-input:focus {
+  outline: none;
+  border-color: var(--hm-primary);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+}
+
+.logo-badge {
+  width: 64px; height: 64px;
+  display: grid; place-items: center;
+  border-radius: 14px;
+  background: rgba(37,99,235,.08);
+  color: var(--hm-primary);
+}
+.logo-badge svg { stroke: currentColor; stroke-width: 1.5; }
+
+.link-muted { color: var(--hm-primary); text-decoration: none; }
+.link-muted:hover { color: var(--hm-primary-700); text-decoration: underline; }
+
+
 
 /* avatar fix (prevents huge images) */
 .role-patient .doctor-card .doctor-avatar,

@@ -1,3 +1,6 @@
+
+
+/* ---- Design tokens ---- */
 :root{
   --hm-bg:#f6f8fb;
   --hm-card:#ffffff;
@@ -10,19 +13,46 @@
   --hm-info:#0ea5e9;
 }
 
+/* ---- Utilities / base ---- */
 .bg-soft{ background: var(--hm-bg); }
 .hm-card{ background: var(--hm-card); border:1px solid var(--hm-border); border-radius:16px; }
+
+
 .hm-sidebar{
   width: 260px; background:#0f172a; color:#dbeafe;
   display:flex; flex-direction:column; gap:.25rem; padding:1rem 1rem;
 }
-.hm-sidebar .title{ color:#93c5fd; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; margin:.75rem 0 .25rem; }
+.hm-sidebar .title{
+  color:#93c5fd; font-size:.75rem; letter-spacing:.08em;
+  text-transform:uppercase; margin:.75rem 0 .25rem;
+}
 .hm-nav-link{
   color:#e2e8f0; text-decoration:none; display:flex; align-items:center; gap:.5rem;
   padding:.6rem .8rem; border-radius:10px;
 }
 .hm-nav-link:hover{ background:#111827; }
 .hm-nav-link.active{ background:#1f2937; color:#fff; }
+
+/* Clip stray decorative layers from other themes (fixes the giant chevron) */
+.admin-content{
+  position: relative;
+  overflow: hidden;
+  background: var(--hm-bg);
+}
+.admin-content::before,
+.admin-content::after{
+  content:none !important; display:none !important;
+}
+/* If any hero/login shapes leak in, hide them within admin area */
+.admin-content svg[style*="position:absolute"],
+.admin-content .bg-shape,
+.admin-content [class*="decor"],
+.admin-content [class*="hero"],
+.admin-content [class*="illustration"]{
+  display:none !important;
+}
+
+
 .hm-kpi{ border-radius:14px; border:1px solid var(--hm-border); background:#fff; padding:1rem; }
 .hm-kpi .value{ font-weight:700; font-size:1.4rem; }
 .hm-kpi .delta-up{ color:var(--hm-success); }
@@ -35,14 +65,61 @@
 .badge-confirmed{ background:#e0f2fe; color:#075985; border:1px solid #bae6fd; }
 .badge-completed{ background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
 .badge-cancelled{ background:#e5e7eb; color:#374151; border:1px solid #d1d5db; }
+/* Optional explicit active/inactive chips */
+.badge-active   { background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
+.badge-inactive { background:#e5e7eb; color:#374151; border:1px solid #d1d5db; }
+
 
 .hm-apt-card{ border:1px solid var(--hm-border); border-radius:14px; background:#fff; padding:1rem; }
 .hm-apt-header{ display:flex; align-items:center; gap:.75rem; }
 .hm-apt-avatar{ width:36px; height:36px; border-radius:999px; }
 .hm-apt-meta small{ color:var(--hm-muted); display:block; line-height:1.2; }
 
-.hm-filter .form-select,.hm-filter .form-control{ border-radius:10px; }
-.hm-table thead th{ background:#f8fafc !important; color:#334155; }
 
-.btn-soft{ border-radius:10px; border:1px solid var(--hm-border); background:#fff; }
+.hm-filter .form-select,
+.hm-filter .form-control{ border-radius:10px; }
+
+
+.hm-card--table{ padding:0; overflow:hidden; }
+.hm-table{ width:100%; border-collapse:separate; border-spacing:0; }
+.hm-table thead th{
+  background:#f8fafc !important; color:#334155;
+  position: sticky; top: 0; z-index: 2; /* sticky header */
+}
+.hm-table th, .hm-table td{ padding:.75rem 1rem; vertical-align: middle; }
+.hm-table tbody tr:hover td{ background:#fafcff; }
+
+/* Keep your original header style for any .hm-table usage via .table classes */
+.hm-table thead th, .table thead th{ background:#f8fafc !important; color:#334155; }
+
+/* Small avatar for name cells */
+.hm-avatar{
+  width:32px; height:32px; border-radius:50%;
+  display:grid; place-items:center;
+  background:#e0e7ff; color:#1d4ed8; font-weight:800; font-size:.85rem;
+  border:1px solid var(--hm-border);
+}
+
+
+.btn-soft{
+  border-radius:12px; border:1px solid var(--hm-border); background:#fff;
+}
 .btn-soft:hover{ background:#f8fafc; }
+
+.btn-hm{
+  background:var(--hm-primary); color:#fff; border:1px solid var(--hm-primary);
+  border-radius:12px; font-weight:600;
+}
+.btn-hm:hover{ background:#1d4ed8; border-color:#1d4ed8; }
+
+/* Optional outline-danger rounded consistency for delete buttons */
+.btn-outline-danger{ border-radius:12px; }
+
+/* Subtle card depth */
+.hm-card{ box-shadow:0 6px 18px rgba(15,23,42,.05); }
+
+/* Pagination area inside table cards */
+.hm-card--table .pagination{ margin:0; }
+
+/* Muted helper text */
+.text-muted, .hm-muted{ color: var(--hm-muted) !important; }
